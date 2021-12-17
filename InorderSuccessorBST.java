@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
+
 /**
  * Represents a node in the binary tree.
  */
@@ -38,7 +39,7 @@ class TreeNode {
 
 
 /**
- * Inorder Successor in BST
+ * LeetCode 285 Inorder Successor in BST
  * https://leetcode.com/problems/inorder-successor-in-bst/
  */
 public class InorderSuccessorBST {
@@ -52,9 +53,8 @@ public class InorderSuccessorBST {
     static TreeNode populateTree(Integer[] arr) {
 
         // **** sanity checks ****
-        if (arr == null || arr.length == 0) {
-            return null;
-        }
+        if (arr == null || arr.length == 0) return null;
+
 
         // **** initialization ****
         Queue<TreeNode> treeNodeQ = new LinkedList<>();
@@ -170,10 +170,12 @@ public class InorderSuccessorBST {
         }
     }
 
-
+    
     /**
-     * Find the in-order successor of that node in the BST.
+     * Find the in-order successor of the specified node in the BST.
      * Entry point for recursive call.
+     * 
+     * Runtime: O(n * log(n)) - Space: O(1)
      * 
      * Runtime: 2 ms, faster than 50.36% of Java online submissions.
      * Memory Usage: 40 MB, less than 30.86% of Java online submissions.
@@ -183,36 +185,42 @@ public class InorderSuccessorBST {
         // **** initialization ****
         TreeNode[] arr = new TreeNode[1];
 
-        // **** find successor ****
+        // **** find inorder successor ****
         inorderSuccessor(root, p, arr);
 
-        // **** return successor ****
-        if (p.val != arr[0].val)
-            return arr[0];
-        else
-            return null;
+        // **** return successor to p (if present) ****
+        if (p.val != arr[0].val) return arr[0];
+        else return null;
     }
 
 
     /**
-     * Find the in-order successor of that node in the BST.
-     * Returns previous visited node.
+     * Find the in-order successor of the specified node in the BST.
+     * Returns inorder successor of specified node.
      * Recursive call.
+     * 
+     * Runtime: O(n * log(n)) - Space: O(1)
      */
-    static void inorderSuccessor(TreeNode root, TreeNode p, TreeNode[] arr) {
+    static private void inorderSuccessor(TreeNode root, TreeNode p, TreeNode[] arr) {
         if (root != null) {
 
             // **** traverse left sub tree ****
             inorderSuccessor(root.left, p, arr);
 
-            // **** flag we found node p ****
+            // **** flag we found node p (save it) ****
             if (root.val == p.val) {
                 arr[0] = root;
+
+                // ???? ????
+                System.out.println("<<< found p: " + arr[0].val);
             } 
             
-            // **** flag we found next node after p ****
+            // **** flag we found next node after p (replace saved node) ****
             else if (arr[0] != null && arr[0].val == p.val) {
                 arr[0] = root;
+
+                // ???? ????
+                System.out.println("<<< p's successor: " + arr[0].val);
             }
 
             // **** traverse right sub tree ****
